@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YYDeviceModel.h"
+
+@class YYGarageViewCell;
+@protocol GarageViewCellDelegate<NSObject>
+
+-(void) YYGarageViewCell:(YYGarageViewCell *)cell didClickSetButton:(UIButton *)setButton;
+
+@end
 
 @interface YYGarageViewCell : UITableViewCell
+
+@property(nonatomic, strong) YYDeviceModel *model;
+
+@property (nonatomic,weak) id<GarageViewCellDelegate> delegate;
 
 @end

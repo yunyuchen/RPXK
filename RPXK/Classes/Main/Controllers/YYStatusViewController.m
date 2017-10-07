@@ -34,13 +34,6 @@
 
     [self.progressView setProgress:1.2];
     
-//    CABasicAnimation* rotationAnimation;
-//    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-//    rotationAnimation.toValue = [NSNumber numberWithFloat: ((110) / 180.0 * M_PI)];
-//    rotationAnimation.duration = 2.5;
-//    rotationAnimation.removedOnCompletion = false;
-//    [self.arrowImageView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-    
     YYBluetoothManager *manager = [YYBluetoothManager sharedManager];
     manager.delegate = self;
 }
@@ -66,26 +59,21 @@
 
 -(void)updateWithSpeed:(CGFloat)speed andBattery:(CGFloat)battery
 {
-    speed = arc4random_uniform(80);
+    speed = arc4random_uniform(60);
     dispatch_async(dispatch_get_main_queue(), ^{
         QMUILog(@"speed %f  battery %f",speed,battery);
         [self.progressView setProgress:battery / 10.0];
-        
         self.batteryLabel.text = [NSString stringWithFormat:@"%.0f",battery];
         self.speedLabel.text = [NSString stringWithFormat:@"%.0f",speed];
-        //speed = 20.0f;
-        // -110 : 0    110 : 60   0 : 30    18:10
-//        CGAffineTransform t = CGAffineTransformMakeRotation(((-110 + 110 / 30 * speed) / 180.0 * M_PI));
-        //self.arrowImageView.transform = t;
         CABasicAnimation* rotationAnimation;
         rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
         if (self.lastSpeed == 0) {
         }else{
-            rotationAnimation.fromValue = [NSNumber numberWithFloat: (((-110 + 110 / 30 * self.lastSpeed) / 180.0 * M_PI))];
+            rotationAnimation.fromValue = [NSNumber numberWithFloat: (((-110 + 110 / 30.0 * self.lastSpeed) / 180.0 * M_PI))];
         }
         self.lastSpeed = speed;
 
-        rotationAnimation.toValue = [NSNumber numberWithFloat: (((-110 + 110 / 30 * speed) / 180.0 * M_PI))];
+        rotationAnimation.toValue = [NSNumber numberWithFloat: (((-110 + 110 / 30.0 * speed) / 180.0 * M_PI))];
         rotationAnimation.duration = 0.6;
         rotationAnimation.removedOnCompletion = NO;
         rotationAnimation.fillMode = kCAFillModeForwards;
@@ -95,7 +83,7 @@
 
 -(void)dealloc
 {
-    [YYBluetoothManager sharedManager].delegate = nil;
+    //[YYBluetoothManager sharedManager].delegate = nil;
 }
 
 @end

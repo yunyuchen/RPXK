@@ -7,7 +7,10 @@
 //
 
 #import <QMUIKit/QMUIKit.h>
+#import "YYPushMessageModel.h"
 
 @interface YYMessageViewCell : QMUITableViewCell
+
+@property (nonatomic,strong) YYPushMessageModel *model;
 
 @end

@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
 @protocol YYBluetoothManagerDelegate<NSObject>
 
+@optional
 - (void)updateWithSpeed:(CGFloat)speed andBattery:(CGFloat)battery;
-
+- (void)shakeHandSuccess;
 
 @end
 
@@ -28,6 +30,7 @@ typedef void (^YYExameBluetoothStateBlock)(BOOL isPowerOn);
 - (void)connectPeripheralWithStateCallback:(YYBLEConnectPeripheralStateBlock)connectStateCallback
                            examBLECallback:(YYExameBluetoothStateBlock)examCallback;
 
+- (void) openSeat;
 @property(nonatomic,weak) id<YYBluetoothManagerDelegate> delegate;
 
 @end

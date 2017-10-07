@@ -15,7 +15,7 @@
 #import <Masonry.h>
 #import <QMUIKit/QMUIKit.h>
 
-@interface YYMainViewController ()
+@interface YYMainViewController ()<YYBluetoothManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *controlView;
 
@@ -43,6 +43,10 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
+@property (weak, nonatomic) IBOutlet UILabel *speedLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *batteryLabel;
+
 @end
 
 @implementation YYMainViewController
@@ -66,6 +70,7 @@
     [self initPickerView];
     
     [NSNotificationCenter addObserver:self action:@selector(loginSuccessAction:) name:kLoginSuccessNotification];
+    [NSNotificationCenter addObserver:self action:@selector(bluetoothDisconnect:) name:kBluetoothDisconnectNotification];
     
     YYBluetoothManager *manager = [YYBluetoothManager sharedManager];
     [manager connectPeripheralWithStateCallback:^(BOOL connectState) {
@@ -73,12 +78,29 @@
     } examBLECallback:^(BOOL isPowerOn) {
         
     }];
+    manager.delegate = self;
     // Do any additional setup after loading the view.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [YYBluetoothManager sharedManager].delegate = self;
+}
+
+//登录成功的通知
 -(void) loginSuccessAction:(NSNotification *)noti
 {
     
+}
+
+//蓝牙断开连接的通知
+-(void) bluetoothDisconnect:(NSNotification *)noti
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      self.bluetoothButton.selected = NO;
+    });
 }
 
 - (BOOL)shouldCustomNavigationBarTransitionIfBarHiddenable
@@ -130,6 +152,7 @@
 
 }
 
+//顶部控制TAB
 - (IBAction)controlButtonClick:(id)sender {
     [UIView animateWithDuration:0.2 animations:^{
         self.controlViewLeadingCons.constant = 0;
@@ -138,6 +161,7 @@
     }];
 }
 
+//顶部灯光TAB
 - (IBAction)lightButtonClick:(id)sender {
     [UIView animateWithDuration:0.2 animations:^{
         self.controlViewLeadingCons.constant = -kScreenWidth;
@@ -145,9 +169,17 @@
     }];
 }
 
+//进入时速和电量界面
 - (IBAction)tapAction:(id)sender {
     [self performSegueWithIdentifier:@"status" sender:self];
 }
+
+
+//开启坐垫锁
+- (IBAction)seatButtonClick:(id)sender {
+    [[YYBluetoothManager sharedManager] openSeat];
+}
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -155,4 +187,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - bluetoothManagerDelegate
+-(void)updateWithSpeed:(CGFloat)speed andBattery:(CGFloat)battery
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //QMUILog(@"speed %f  battery %f",speed,battery);
+        self.speedLabel.text = [NSString stringWithFormat:@"%.0f",speed];
+        self.batteryLabel.text = [NSString stringWithFormat:@"%.0f",battery];
+    });
+   
+}
+
+-(void)shakeHandSuccess
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bluetoothButton.selected = YES;
+    });
+  
+}
 @end

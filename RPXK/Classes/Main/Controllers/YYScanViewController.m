@@ -8,9 +8,11 @@
 
 #import "YYScanViewController.h"
 #import "StyleDIY.h"
+#import "YYCheckBLERequest.h"
+#import "YYAddBikeRequest.h"
 #import <QMUIKit/QMUIKit.h>
 
-@interface YYScanViewController ()
+@interface YYScanViewController ()<QMUITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet QMUIButton *flashButton;
 
@@ -18,8 +20,9 @@
 
 @property (weak, nonatomic) IBOutlet UIView *flashView;
 
-
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
+
+@property(nonatomic, weak) QMUIDialogTextFieldViewController *currentTextFieldDialogViewController;
 
 @end
 
@@ -134,6 +137,44 @@
         return;
     }
     
+    YYCheckBLERequest *request = [[YYCheckBLERequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCheckBleAPI];
+    request.bleid = strResult;
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            QMUIDialogTextFieldViewController *dialogViewController = [[QMUIDialogTextFieldViewController alloc] init];
+            dialogViewController.title = @"请输入昵称";
+            dialogViewController.textField.delegate = self;
+            dialogViewController.textField.placeholder = @"昵称";
+            [dialogViewController addCancelButtonWithText:@"取消" block:nil];
+            [dialogViewController addSubmitButtonWithText:@"确定" block:^(QMUIDialogViewController *aDialogViewController) {
+                [aDialogViewController hide];
+                
+                YYAddBikeRequest *request = [[YYAddBikeRequest alloc] init];
+                request.name = weakSelf.currentTextFieldDialogViewController.textField.text;
+                request.bleid = strResult;
+                request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kAddBikeAPI];
+                [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+                    if (success) {
+                        [QMUITips showWithText:message inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
+                        [weakSelf reStartDevice];
+                    }
+                } error:^(NSError *error) {
+                    
+                }];
+            }];
+            [dialogViewController show];
+            weakSelf.currentTextFieldDialogViewController = dialogViewController;
+        }else{
+            [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
+        }
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 

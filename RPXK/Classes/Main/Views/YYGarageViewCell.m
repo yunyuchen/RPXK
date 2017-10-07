@@ -12,6 +12,12 @@
 
 @property (weak, nonatomic) IBOutlet UIView *outerView;
 
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *deviceIDLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *defaultButton;
+
 @end
 
 @implementation YYGarageViewCell
@@ -31,5 +37,21 @@
 
     // Configure the view for the selected state
 }
+
+-(void)setModel:(YYDeviceModel *)model
+{
+    _model = model;
+    
+    self.nameLabel.text = model.name;
+    self.deviceIDLabel.text = model.bleid;
+    self.defaultButton.selected = !model.state;
+}
+
+- (IBAction)setMainButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(YYGarageViewCell:didClickSetButton:)]) {
+        [self.delegate YYGarageViewCell:self didClickSetButton:sender];
+    }
+}
+
 
 @end

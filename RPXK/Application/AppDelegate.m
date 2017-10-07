@@ -24,7 +24,7 @@
     [[UINavigationBar appearance] setTranslucent:NO];
     
     [AMapServices sharedServices].apiKey = kAMapKey;
-    
+    [[AMapServices sharedServices] setEnableHTTPS:NO];
     return YES;
 }
 

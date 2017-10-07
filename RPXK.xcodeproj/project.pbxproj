@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B3AEF281F8871CC002934F2 /* YYCheckBLERequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3AEF271F8871CC002934F2 /* YYCheckBLERequest.m */; };
+		0B3AEF2B1F8872D2002934F2 /* YYAddBikeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3AEF2A1F8872D2002934F2 /* YYAddBikeRequest.m */; };
+		0B3AEF2F1F88AC1C002934F2 /* YYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3AEF2E1F88AC1C002934F2 /* YYDeviceModel.m */; };
+		0B3AEF321F88B175002934F2 /* YYPushMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3AEF311F88B175002934F2 /* YYPushMessageModel.m */; };
+		0B3AEF351F88CC49002934F2 /* YYSetMainDeviceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3AEF341F88CC49002934F2 /* YYSetMainDeviceRequest.m */; };
 		0B3F5DBA1F7C912500AB2E80 /* QMUIConfigurationTemplate.h in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F5DB81F7C900D00AB2E80 /* QMUIConfigurationTemplate.h */; };
 		0B3F5DBB1F7C912500AB2E80 /* QMUIConfigurationTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F5DB91F7C900D00AB2E80 /* QMUIConfigurationTemplate.m */; };
 		0B3F5DBE1F7C934C00AB2E80 /* YYECallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F5DBD1F7C934C00AB2E80 /* YYECallViewController.m */; };
@@ -187,6 +192,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B3AEF261F8871CC002934F2 /* YYCheckBLERequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYCheckBLERequest.h; sourceTree = "<group>"; };
+		0B3AEF271F8871CC002934F2 /* YYCheckBLERequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYCheckBLERequest.m; sourceTree = "<group>"; };
+		0B3AEF291F8872D2002934F2 /* YYAddBikeRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYAddBikeRequest.h; sourceTree = "<group>"; };
+		0B3AEF2A1F8872D2002934F2 /* YYAddBikeRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYAddBikeRequest.m; sourceTree = "<group>"; };
+		0B3AEF2D1F88AC1C002934F2 /* YYDeviceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYDeviceModel.h; sourceTree = "<group>"; };
+		0B3AEF2E1F88AC1C002934F2 /* YYDeviceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYDeviceModel.m; sourceTree = "<group>"; };
+		0B3AEF301F88B175002934F2 /* YYPushMessageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYPushMessageModel.h; sourceTree = "<group>"; };
+		0B3AEF311F88B175002934F2 /* YYPushMessageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYPushMessageModel.m; sourceTree = "<group>"; };
+		0B3AEF331F88CC49002934F2 /* YYSetMainDeviceRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSetMainDeviceRequest.h; sourceTree = "<group>"; };
+		0B3AEF341F88CC49002934F2 /* YYSetMainDeviceRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYSetMainDeviceRequest.m; sourceTree = "<group>"; };
 		0B3F5DB81F7C900D00AB2E80 /* QMUIConfigurationTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMUIConfigurationTemplate.h; sourceTree = "<group>"; };
 		0B3F5DB91F7C900D00AB2E80 /* QMUIConfigurationTemplate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QMUIConfigurationTemplate.m; sourceTree = "<group>"; };
 		0B3F5DBC1F7C934C00AB2E80 /* YYECallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYECallViewController.h; sourceTree = "<group>"; };
@@ -425,6 +440,12 @@
 				0BA52D5B1F7E1EBA00546532 /* YYSendCodeRequest.m */,
 				0BA52D5D1F7E230500546532 /* YYLoginRequest.h */,
 				0BA52D5E1F7E230500546532 /* YYLoginRequest.m */,
+				0B3AEF261F8871CC002934F2 /* YYCheckBLERequest.h */,
+				0B3AEF271F8871CC002934F2 /* YYCheckBLERequest.m */,
+				0B3AEF291F8872D2002934F2 /* YYAddBikeRequest.h */,
+				0B3AEF2A1F8872D2002934F2 /* YYAddBikeRequest.m */,
+				0B3AEF331F88CC49002934F2 /* YYSetMainDeviceRequest.h */,
+				0B3AEF341F88CC49002934F2 /* YYSetMainDeviceRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -982,6 +1003,10 @@
 		0BBB4B521F78D15200ACBC8F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0B3AEF2D1F88AC1C002934F2 /* YYDeviceModel.h */,
+				0B3AEF2E1F88AC1C002934F2 /* YYDeviceModel.m */,
+				0B3AEF301F88B175002934F2 /* YYPushMessageModel.h */,
+				0B3AEF311F88B175002934F2 /* YYPushMessageModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1231,6 +1256,7 @@
 				0BBB4AF71F789B0000ACBC8F /* NSURL+Parameters.h in Sources */,
 				0BBB4AF81F789B0000ACBC8F /* NSURL+Parameters.m in Sources */,
 				0BBB4AF91F789B0000ACBC8F /* UIBarButtonItem+Item.h in Sources */,
+				0B3AEF2B1F8872D2002934F2 /* YYAddBikeRequest.m in Sources */,
 				0B3F5DDE1F7CCFB600AB2E80 /* YYStatusViewController.m in Sources */,
 				0BBB4AFA1F789B0000ACBC8F /* UIBarButtonItem+Item.m in Sources */,
 				0BBB4B561F78D16200ACBC8F /* YYMainViewController.m in Sources */,
@@ -1241,6 +1267,7 @@
 				0BBB4AFE1F789B0000ACBC8F /* UIImage+Clip.m in Sources */,
 				0BBB4AFF1F789B0000ACBC8F /* UIImage+Color.h in Sources */,
 				0BBB4B001F789B0000ACBC8F /* UIImage+Color.m in Sources */,
+				0B3AEF321F88B175002934F2 /* YYPushMessageModel.m in Sources */,
 				0BBB4B011F789B0000ACBC8F /* UIImage+Size.h in Sources */,
 				0BBB4B021F789B0000ACBC8F /* UIImage+Size.m in Sources */,
 				0B3F5DD81F7CC6B300AB2E80 /* YYMapViewController.m in Sources */,
@@ -1264,6 +1291,7 @@
 				0BBB4B111F789B0000ACBC8F /* UIView+Nib.h in Sources */,
 				0BBB4B121F789B0000ACBC8F /* UIView+Nib.m in Sources */,
 				0BBB4B131F789B0000ACBC8F /* UIView+ViewController.h in Sources */,
+				0B3AEF351F88CC49002934F2 /* YYSetMainDeviceRequest.m in Sources */,
 				0BBB4B141F789B0000ACBC8F /* UIView+ViewController.m in Sources */,
 				0BA52D571F7DDB2300546532 /* YYBatteryView.m in Sources */,
 				0BBB4B151F789B0000ACBC8F /* UIView+YYExtension.h in Sources */,
@@ -1285,6 +1313,7 @@
 				0BBB4B231F789B0000ACBC8F /* JJPhotoManeger.h in Sources */,
 				0BBB4B241F789B0000ACBC8F /* JJPhotoManeger.m in Sources */,
 				0BBB4B251F789B0000ACBC8F /* ImagePickerDefine.h in Sources */,
+				0B3AEF2F1F88AC1C002934F2 /* YYDeviceModel.m in Sources */,
 				0BBB4B261F789B0000ACBC8F /* MGroupCell.h in Sources */,
 				0BBB4B271F789B0000ACBC8F /* MGroupCell.m in Sources */,
 				0BBB4B281F789B0000ACBC8F /* MGroupCell.xib in Sources */,
@@ -1357,6 +1386,7 @@
 				0BBB4AEE1F789AA700ACBC8F /* NSString+Size.m in Sources */,
 				0BBB4AEF1F789AA700ACBC8F /* NSString+YYExtension.h in Sources */,
 				0BBB4AC91F789A8300ACBC8F /* AppDelegate.h in Sources */,
+				0B3AEF281F8871CC002934F2 /* YYCheckBLERequest.m in Sources */,
 				0BBB4ACA1F789A8300ACBC8F /* AppDelegate.m in Sources */,
 				0BBB4AC81F789A0F00ACBC8F /* main.m in Sources */,
 			);

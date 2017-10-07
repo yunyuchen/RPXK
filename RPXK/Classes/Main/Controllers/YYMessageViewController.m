@@ -8,9 +8,12 @@
 
 #import "YYMessageViewController.h"
 #import "YYMessageViewCell.h"
+#import "YYPushMessageModel.h"
+#import "YYBaseRequest.h"
 
 @interface YYMessageViewController ()
 
+@property (nonatomic,strong) NSMutableArray<YYPushMessageModel *> *models;
 
 @end
 
@@ -18,11 +21,36 @@
 
 @implementation YYMessageViewController
 
+-(NSMutableArray<YYPushMessageModel *> *)models
+{
+    if (_models == nil) {
+        _models = [NSMutableArray array];
+    }
+    return _models;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"消息";
+    
+    [self requestPushMessages];
     // Do any additional setup after loading the view.
+}
+
+- (void) requestPushMessages
+{
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kPushMsgAPI];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.models = [YYPushMessageModel modelArrayWithDictArray:response];
+            [weakSelf.tableView reloadData];
+        }
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 -(void)initTableView
@@ -52,8 +80,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.tableView qmui_heightForCellWithIdentifier:cellIdentifier cacheByIndexPath:indexPath configuration:^(id cell) {
-
+    return [self.tableView qmui_heightForCellWithIdentifier:cellIdentifier cacheByIndexPath:indexPath configuration:^(YYMessageViewCell* cell) {
+         cell.model = self.models[indexPath.row];
     }];
 }
 
@@ -65,18 +93,19 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.models.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YYMessageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+    cell.model = self.models[indexPath.row];
     return cell;
 }
 
 - (UITableViewCell *)qmui_tableView:(UITableView *)tableView cellWithIdentifier:(NSString *)identifier {
     YYMessageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+
     return cell;
 }
 

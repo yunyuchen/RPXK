@@ -8,7 +8,6 @@
 
 #import "YYBluetoothManager.h"
 #import "NSString+YYExtension.h"
-#import <CoreBluetooth/CoreBluetooth.h>
 #import <QMUIKit.h>
 
 @interface YYBluetoothManager()<CBCentralManagerDelegate, CBPeripheralDelegate>
@@ -173,7 +172,6 @@ static YYBluetoothManager *_instance;
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     //主设备状态改变的委托，在初始化CBCentralManager的时候会打开设备，只有当设备正确打开后才能使用
-    
     switch (central.state) {
         case CBCentralManagerStateUnknown:
             QMUILog(@">>>CBCentralManagerStateUnknown");
@@ -189,6 +187,7 @@ static YYBluetoothManager *_instance;
             break;
         case CBCentralManagerStatePoweredOff:
             QMUILog(@">>>CBCentralManagerStatePoweredOff 设备蓝牙开关未打开");
+            [[NSNotificationCenter defaultCenter] postNotificationName:kBluetoothDisconnectNotification object:nil];
             break;
         case CBCentralManagerStatePoweredOn:
             QMUILog(@">>>CBCentralManagerStatePoweredOn");
@@ -285,15 +284,25 @@ static YYBluetoothManager *_instance;
 }
 
 
+-(void)openSeat
+{
+    Byte cmd[] = {0xA2,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+    NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+    [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+}
+
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     
-    QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
+    //QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
     
     NSString *module = [NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(2, 1)]];
     //握手状态
     if ([module isEqualToString:@"50"] && [NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(3, 1)]]) {
         QMUILog(@"🤝握手成功");
+        if ([self.delegate respondsToSelector:@selector(shakeHandSuccess)]) {
+            [self.delegate shakeHandSuccess];
+        }
         //发送查询指令
         Byte cmd[] = {0xA1};
         NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
@@ -310,6 +319,10 @@ static YYBluetoothManager *_instance;
         if ([self.delegate respondsToSelector:@selector(updateWithSpeed:andBattery:)]) {
             [self.delegate updateWithSpeed:speed andBattery:battery];
         }
+    }
+    
+    if ([module isEqualToString:@"52"]) {
+         QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
     }
     
     if (error)

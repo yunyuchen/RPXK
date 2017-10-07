@@ -8,14 +8,22 @@
 
 #import "YYMapViewController.h"
 #import "YYMovingRecordViewController.h"
+#import "YYBaseRequest.h"
 #import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface YYMapViewController ()<MAMapViewDelegate>
+
+@interface YYMapViewController ()<MAMapViewDelegate,AMapSearchDelegate>
 
 @property (nonatomic, strong) MAMapView *mapView;
 
 @property (weak, nonatomic) IBOutlet UIView *locationView;
 
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+
+@property(nonatomic, strong) AMapSearchAPI *search;
 
 @end
 
@@ -32,6 +40,28 @@
     return NO;
 }
 
+-(void)requestLocation
+{
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kLocationAPI];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.timeLabel.text = response[@"ctime"];
+            
+            AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
+            
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([response[@"lat"] floatValue], [response[@"lon"] floatValue]);
+            regeo.location = [AMapGeoPoint locationWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+            regeo.requireExtension = YES;
+            [weakSelf.search AMapReGoecodeSearch:regeo];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"当前定位";
@@ -42,7 +72,7 @@
     [recordButton sizeToFit];
     [recordButton addTarget:self action:@selector(recordButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:recordButton];
-    
+
     self.mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.mapView.delegate = self;
@@ -59,6 +89,11 @@
         
     self.locationView.layer.cornerRadius = 5;
     self.locationView.layer.masksToBounds = YES;
+    
+    [self requestLocation];
+    
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
 }
 
 -(void) recordButtonClick:(UIButton *)sender
@@ -77,6 +112,20 @@
             userLocationView.imageView.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.f );
         }];
     }
+}
+
+/* 逆地理编码回调. */
+- (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
+{
+    if (response.regeocode != nil)
+    {
+        self.addressLabel.text = response.regeocode.formattedAddress;
+    }
+}
+
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
+{
+    NSLog(@"Error: %@", error);
 }
 
 @end

@@ -65,4 +65,13 @@ static CGFloat const kTimeMarginBottom = 15;
     return resultSize;
 }
 
+-(void)setModel:(YYPushMessageModel *)model
+{
+    _model = model;
+    
+    self.messageTitleLabel.text = model.title;
+    self.messageTimeLabel.text = model.ctime;
+    self.messageContentLabel.text = model.content;
+}
+
 @end

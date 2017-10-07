@@ -14,6 +14,7 @@ NSString *const kSelectedPhotosChangeNotification = @"SelectedPhotosChangeNotifi
 NSString *const kNHRequestSuccessNotification = @"NHRequestSuccessNotification";
 NSString *const kLoginSuccessNotification = @"LoginSuccessNotification";
 NSString *const kLogoutSuccessNotification = @"LogoutSuccessNotification";
+NSString *const kBluetoothDisconnectNotification = @"BluetoothDisconnectNotification";
 
 NSString *const kBaseURL = @"http://120.27.21.73/";
 
@@ -25,4 +26,19 @@ NSString *const kSendCodeAPI = @"open/get?module=CodeService.sendCodeByToken";
 
 NSString *const kUserInfoAPI = @"get?module=UserService.userinfo";
 
+NSString *const kAddBikeAPI = @"get?module=DeviceService.addBike";
+
+NSString *const kDelBikeAPI = @"get?module=DeviceService.delBike";
+
+NSString *const kMyBikesAPI = @"get?module=DeviceService.myBikes";
+
+NSString *const kCheckBleAPI = @"get?module=DeviceService.checkBle";
+
+NSString *const kPushMsgAPI = @"get?module=UserService.pushmsg";
+
+NSString *const kSetMainDeviceAPI = @"get?module=DeviceService.setMainDevice";
+
+NSString *const kLocationAPI = @"get?module=DeviceService.location";
+
+NSString *const kGPSInfoAPI = @"get?module=DeviceService.gpsinfo";
 @end

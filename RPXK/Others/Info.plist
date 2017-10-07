@@ -53,5 +53,11 @@
     <string>RPXK需要您的位置，若拒绝，您将无法使用。</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>需要访问您的相册</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+
 </dict>
 </plist>
