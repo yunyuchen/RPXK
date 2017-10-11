@@ -286,16 +286,77 @@ static YYBluetoothManager *_instance;
 
 -(void)openSeat
 {
-    Byte cmd[] = {0xA2,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
-    [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    if ([self hasConnectPeripheral]) {
+        Byte cmd[] = {0xA2,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    }
+}
+
+- (void) check
+{
+    if ([self hasConnectPeripheral]){
+        Byte cmd[] = {0xA2,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+        
+    }
+}
+
+- (void)searchBike
+{
+    if ([self hasConnectPeripheral]){
+        Byte cmd[] = {0xA2,0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    }
+}
+
+- (void) openCmd
+{
+    if ([self hasConnectPeripheral]){
+        Byte cmd[] = {0xA2,0x03,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    }
+}
+
+-(void)closeCmd
+{
+    if ([self hasConnectPeripheral]){
+        Byte cmd[] = {0xA2,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    }
+}
+
+-(void)changeColorWithRed:(NSInteger)red Green:(NSInteger)green Blue:(NSInteger)blue
+{
+    if ([self hasConnectPeripheral]){
+        Byte cmd[] = {0xA2,0x0C,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        cmd[3] = (Byte)(0xff & red);
+        cmd[4] = (Byte)(0xff & green);
+        cmd[5] = (Byte)(0xff & blue);
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    }
+    
+}
+
+-(void)changeLightDelay:(NSInteger)delay
+{
+    if ([self hasConnectPeripheral]){
+        Byte cmd[] = {0xA2,0x0C,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+        cmd[6] = (Byte)(0xff & delay);
+        NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
+        [self.peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    }
+    
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    
     //QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
-    
     NSString *module = [NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(2, 1)]];
     //握手状态
     if ([module isEqualToString:@"50"] && [NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(3, 1)]]) {
@@ -308,17 +369,28 @@ static YYBluetoothManager *_instance;
         NSData *sendStr = [self getSendCmdStr:cmd withCmdSize:sizeof(cmd)];
         [peripheral writeValue:sendStr forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
     }
+    
     //查询返回
     if ([module isEqualToString:@"51"]) {
         QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
     }
+    
     //同步数据
     if ([module isEqualToString:@"53"]) {
-        CGFloat speed = [[[NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(6, 1)]] changeToDecimalFromHex] floatValue];
-        CGFloat battery = [[[NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(3, 1)]] changeToDecimalFromHex] floatValue];
-        if ([self.delegate respondsToSelector:@selector(updateWithSpeed:andBattery:)]) {
-            [self.delegate updateWithSpeed:speed andBattery:battery];
+        QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
+       
+        //车辆状态
+        if ([[[NSString convertDataToHexStr:[characteristic.value subdataWithRange:NSMakeRange(3, 1)]] uppercaseString] isEqualToString:@"0C"]) {
+            
+            NSData *resultData = [characteristic.value subdataWithRange:NSMakeRange(3, 9)];
+            
+            CGFloat speed = [[[NSString convertDataToHexStr:[resultData subdataWithRange:NSMakeRange(4, 1)]] changeToDecimalFromHex] floatValue];
+            CGFloat battery = [[[NSString convertDataToHexStr:[resultData subdataWithRange:NSMakeRange(6, 1)]] changeToDecimalFromHex] floatValue];
+            if ([self.delegate respondsToSelector:@selector(updateWithSpeed:andBattery:)]) {
+                [self.delegate updateWithSpeed:speed andBattery:battery];
+            }
         }
+      
     }
     
     if ([module isEqualToString:@"52"]) {

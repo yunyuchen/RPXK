@@ -105,7 +105,7 @@
     self.tableView.parallaxHeader.height = 208;
     self.tableView.parallaxHeader.mode = MXParallaxHeaderModeTopFill;
     self.tableView.parallaxHeader.minimumHeight = 208;
-    self.tableView.parallaxHeader.delegate = self;
+    //self.tableView.parallaxHeader.delegate = self;
     self.tableView.parallaxHeader.view = self.headerView;
     self.tableView.qmui_staticCellDataSource = dataSource;
 }
@@ -167,17 +167,17 @@
 
 
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    QMUITableViewCell *cell = [tableView.qmui_staticCellDataSource cellForRowAtIndexPath:indexPath];
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // 因为需要自定义 cell 的内容，所以才需要重写 tableView:didSelectRowAtIndexPath: 方法。
-    // 当重写这个方法时，请调用 qmui_staticCellDataSource 的同名方法以保证功能的完整
-    [tableView.qmui_staticCellDataSource didSelectRowAtIndexPath:indexPath];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    QMUITableViewCell *cell = [tableView.qmui_staticCellDataSource cellForRowAtIndexPath:indexPath];
+//    return cell;
+//}
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    // 因为需要自定义 cell 的内容，所以才需要重写 tableView:didSelectRowAtIndexPath: 方法。
+//    // 当重写这个方法时，请调用 qmui_staticCellDataSource 的同名方法以保证功能的完整
+//    [tableView.qmui_staticCellDataSource didSelectRowAtIndexPath:indexPath];
+//
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
 
 @end

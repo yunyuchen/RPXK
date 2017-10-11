@@ -15,7 +15,7 @@
 #import <Masonry.h>
 #import <QMUIKit/QMUIKit.h>
 
-@interface YYMainViewController ()<YYBluetoothManagerDelegate>
+@interface YYMainViewController ()<YYBluetoothManagerDelegate,QMUITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *controlView;
 
@@ -46,6 +46,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *speedLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *batteryLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *lightDelayButton;
+
 
 @end
 
@@ -153,7 +156,7 @@
 }
 
 //顶部控制TAB
-- (IBAction)controlButtonClick:(id)sender {
+- (IBAction)controlButtonClick:(UIButton *)sender {
     [UIView animateWithDuration:0.2 animations:^{
         self.controlViewLeadingCons.constant = 0;
         self.lineView.centerX = self.controlButton.centerX;
@@ -162,7 +165,7 @@
 }
 
 //顶部灯光TAB
-- (IBAction)lightButtonClick:(id)sender {
+- (IBAction)lightButtonClick:(UIButton *)sender {
     [UIView animateWithDuration:0.2 animations:^{
         self.controlViewLeadingCons.constant = -kScreenWidth;
         self.lineView.centerX = self.lightButton.centerX;
@@ -176,8 +179,69 @@
 
 
 //开启坐垫锁
-- (IBAction)seatButtonClick:(id)sender {
+- (IBAction)seatButtonClick:(UIButton *)sender {
     [[YYBluetoothManager sharedManager] openSeat];
+}
+
+//自检
+- (IBAction)checkButtonClick:(UIButton *)sender {
+   [[YYBluetoothManager sharedManager] check];
+}
+
+//寻车
+- (IBAction)searchButtonClick:(UIButton *)sender {
+    [[YYBluetoothManager sharedManager] searchBike];
+}
+
+//开关
+- (IBAction)switchButtonClick:(UIButton *)sender {
+    if (!sender.selected) {
+        [[YYBluetoothManager sharedManager] openCmd];
+    }else{
+        [[YYBluetoothManager sharedManager] closeCmd];
+    }
+}
+
+//上防_解防
+- (IBAction)lockButtonClick:(UIButton *)sender {
+    if (sender.contentHorizontalAlignment == UIControlContentHorizontalAlignmentLeft) {
+        sender.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        sender.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 3);
+    }else{
+        sender.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        sender.imageEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 0);
+    }
+}
+
+- (IBAction)lightDelayButtonClick:(UIButton *)sender {
+    QMUIDialogTextFieldViewController *dialogViewController = [[QMUIDialogTextFieldViewController alloc] init];
+    dialogViewController.title = @"自定义延迟时间";
+    dialogViewController.textField.delegate = self;
+    dialogViewController.textField.keyboardType = UIKeyboardTypeNumberPad;
+    dialogViewController.textField.maximumTextLength = 3;
+    dialogViewController.textField.placeholder = @"在此输入延迟时间(1~255)";
+    [dialogViewController addCancelButtonWithText:@"取消" block:nil];
+    [dialogViewController addSubmitButtonWithText:@"确定" block:^(QMUIDialogViewController *aDialogViewController) {
+        
+        NSInteger delay = [((QMUIDialogTextFieldViewController *)aDialogViewController).textField.text integerValue];
+        
+        if (delay > 255) {
+            [QMUITips showWithText:@"请输入正确的值" inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
+            return;
+        }
+        [aDialogViewController hide];
+        
+        [self.lightDelayButton setTitle:((QMUIDialogTextFieldViewController *)aDialogViewController).textField.text forState:UIControlStateNormal];
+        
+        [[YYBluetoothManager sharedManager] changeLightDelay:delay];
+    }];
+    [dialogViewController show];
+}
+
+- (IBAction)delayChange:(QMUISlider *)sender {
+    [self.lightDelayButton setTitle:@"未设置" forState:UIControlStateNormal];
+    
+    [[YYBluetoothManager sharedManager] changeLightDelay:sender.value];
 }
 
 
@@ -191,7 +255,6 @@
 -(void)updateWithSpeed:(CGFloat)speed andBattery:(CGFloat)battery
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        //QMUILog(@"speed %f  battery %f",speed,battery);
         self.speedLabel.text = [NSString stringWithFormat:@"%.0f",speed];
         self.batteryLabel.text = [NSString stringWithFormat:@"%.0f",battery];
     });

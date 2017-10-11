@@ -11,6 +11,7 @@
 #import "YYBaseRequest.h"
 #import "YYDeviceModel.h"
 #import "YYSetMainDeviceRequest.h"
+#import "YYDeleteBikeRequest.h"
 
 @interface YYGarageViewController ()<UITableViewDelegate,UITableViewDataSource,GarageViewCellDelegate>
 
@@ -101,6 +102,38 @@
     } error:^(NSError *error) {
         
     }];
+    
+}
+
+
+-(void)YYGarageViewCell:(YYGarageViewCell *)cell didClickDeleteButton:(UIButton *)deleteButton
+{
+    QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+    }];
+    QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+        YYDeleteBikeRequest *request = [[YYDeleteBikeRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kDelBikeAPI];
+        request.deviceid = cell.model.deviceid;
+        request.pid = cell.model.ID;
+        __weak __typeof(self)weakSelf = self;
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            if (success) {
+                [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:2];
+                
+                [weakSelf requestMyBikes];
+            }else{
+               [QMUITips showWithText:message inView:self.view hideAfterDelay:2];
+            }
+        } error:^(NSError *error) {
+            [QMUITips showWithText:@"网络不给力" inView:self.view hideAfterDelay:2];
+        }];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"提示" message:@"确定删除吗" preferredStyle:QMUIAlertControllerStyleAlert];
+    [alertController addAction:action1];
+    [alertController addAction:action2];
+    [alertController showWithAnimated:YES];
     
 }
 

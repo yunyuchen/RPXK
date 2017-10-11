@@ -14,6 +14,8 @@
 
 -(void) YYGarageViewCell:(YYGarageViewCell *)cell didClickSetButton:(UIButton *)setButton;
 
+-(void) YYGarageViewCell:(YYGarageViewCell *)cell didClickDeleteButton:(UIButton *)deleteButton;
+
 @end
 
 @interface YYGarageViewCell : UITableViewCell

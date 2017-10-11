@@ -31,6 +31,19 @@ typedef void (^YYExameBluetoothStateBlock)(BOOL isPowerOn);
                            examBLECallback:(YYExameBluetoothStateBlock)examCallback;
 
 - (void) openSeat;
+
+- (void) check;
+
+- (void) searchBike;
+
+- (void) openCmd;
+
+- (void) closeCmd;
+
+- (void) changeColorWithRed:(NSInteger)red Green:(NSInteger)green Blue:(NSInteger)blue;
+
+- (void) changeLightDelay:(NSInteger)delay;
+
 @property(nonatomic,weak) id<YYBluetoothManagerDelegate> delegate;
 
 @end

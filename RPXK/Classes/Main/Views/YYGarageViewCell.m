@@ -53,5 +53,11 @@
     }
 }
 
+- (IBAction)deleteButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(YYGarageViewCell:didClickDeleteButton:)]) {
+        [self.delegate YYGarageViewCell:self didClickDeleteButton:sender];
+    }
+    
+}
 
 @end

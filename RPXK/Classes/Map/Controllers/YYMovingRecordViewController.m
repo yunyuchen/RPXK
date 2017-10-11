@@ -7,25 +7,43 @@
 //
 
 #import "YYMovingRecordViewController.h"
+#import "YYGPSInfoRequest.h"
+#import "YYRecordModel.h"
 #import <MAMapKit/MAMapKit.h>
 
 @interface YYMovingRecordViewController ()<MAMapViewDelegate>
 {
-    CLLocationCoordinate2D coords1[5];
-    CLLocationCoordinate2D coords2[6];
-    CLLocationCoordinate2D coords3[10];//五角星
+     CLLocationCoordinate2D *coordinates;
 }
-
 @property (nonatomic, strong) MAMapView *mapView;
 
 @property (nonatomic, strong) MAAnimatedAnnotation* annotation;
 
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
+@property (nonatomic,strong) NSArray<YYRecordModel *> *models;
+
+@property (nonatomic,assign) CLLocationCoordinate2D lastCoordinate;
+
+@property (nonatomic,assign) NSInteger lastIndex;
+
+@property (nonatomic,strong) MAPolyline *currentPolyline;
+
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
+
 
 @end
 
 @implementation YYMovingRecordViewController
+
+
+-(NSArray<YYRecordModel *> *)models
+{
+    if (_models == nil) {
+        _models = [NSArray array];
+    }
+    return _models;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,67 +52,119 @@
     
     self.bottomView.layer.cornerRadius = 5;
     self.bottomView.layer.masksToBounds = YES;
-    [self initCoordinates];
     
     self.mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.mapView.delegate = self;
+    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+    coordinates = NULL;
+    
     [self.view insertSubview:self.mapView atIndex:0];
     
-    //add overlay
-    MAPolyline *polyline1 = [MAPolyline polylineWithCoordinates:coords1 count:sizeof(coords1) / sizeof(coords1[0])];
-    MAPolyline *polyline2 = [MAPolyline polylineWithCoordinates:coords2 count:sizeof(coords2) / sizeof(coords2[0])];
-    MAPolyline *polyline3 = [MAPolyline polylineWithCoordinates:coords3 count:sizeof(coords3) / sizeof(coords3[0])];
-    [self.mapView addOverlays:@[polyline1, polyline2, polyline3]];
-    
-    MAAnimatedAnnotation *anno = [[MAAnimatedAnnotation alloc] init];
-    anno.coordinate = coords1[0];
-    self.annotation = anno;
-    
-    [self.mapView addAnnotation:self.annotation];
-    
-    [self initButton];
+    [self requestTodayMovingRecord];
 }
 
-- (void)initCoordinates {
-    ///1
-    coords1[0].latitude = 39.852136;
-    coords1[0].longitude = 116.30095;
-    
-    coords1[1].latitude = 39.852136;
-    coords1[1].longitude = 116.40095;
-    
-    coords1[2].latitude = 39.932136;
-    coords1[2].longitude = 116.40095;
-    
-    coords1[3].latitude = 39.932136;
-    coords1[3].longitude = 116.40095;
-    
-    coords1[4].latitude = 39.982136;
-    coords1[4].longitude = 116.48095;
-    
-    ///2
-    coords2[0].latitude = 39.982136;
-    coords2[0].longitude = 116.48095;
-    
-    coords2[1].latitude = 39.832136;
-    coords2[1].longitude = 116.42095;
-    
-    coords2[2].latitude = 39.902136;
-    coords2[2].longitude = 116.42095;
-    
-    coords2[3].latitude = 39.902136;
-    coords2[3].longitude = 116.44095;
-    
-    coords2[4].latitude = 39.932136;
-    coords2[4].longitude = 116.44095;
-    
-    
-    ///3
-    [self generateStarPoints:coords3 pointsCount:10 atCenter:CLLocationCoordinate2DMake(39.800892, 116.293413)];//生成多角星的坐标
-    
-    coords2[5] = coords3[0];
+
+- (IBAction)recordButtonClick:(UIButton *)sender {
+    if (self.currentPolyline) {
+        for(MAAnnotationMoveAnimation *animation in [self.annotation allMoveAnimations]){
+            [animation cancel];
+        }
+        [self.mapView removeAnnotation:self.annotation];
+        [self.mapView removeOverlay:self.currentPolyline];
+        self.startButton.selected = NO;
+    }
+    if (sender.selected) {
+        [self requestTodayMovingRecord];
+    }else{
+        [self requestYesterdayMovingRecord];
+    }
+    sender.selected = !sender.selected;
 }
+
+
+-(void) requestYesterdayMovingRecord
+{
+    YYGPSInfoRequest *request = [[YYGPSInfoRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGPSInfoAPI];
+    request.begin = @"2017-07-20 17:48:30";
+    request.end = @"2017-07-21 00:00:00";
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.models = [YYRecordModel modelArrayWithDictArray:response];
+            
+            if (weakSelf.models.count <= 0) {
+                return;
+            }
+            coordinates = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * weakSelf.models.count);
+            
+            int index = 0;
+            for (YYRecordModel *model in weakSelf.models) {
+                coordinates[index].longitude = model.lon;
+                coordinates[index].latitude = model.lat;
+                index++;
+            }
+            MAPolyline *polyline = [MAPolyline polylineWithCoordinates:coordinates count:weakSelf.models.count];
+            weakSelf.currentPolyline = polyline;
+            [weakSelf.mapView addOverlay:polyline];
+            
+            [weakSelf.mapView setCenterCoordinate:coordinates[0]];
+            [weakSelf.mapView setZoomLevel:16.6];
+            
+            
+            MAAnimatedAnnotation *anno = [[MAAnimatedAnnotation alloc] init];
+            anno.coordinate = coordinates[0];
+            weakSelf.annotation = anno;
+            
+            [weakSelf.mapView addAnnotation:weakSelf.annotation];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+-(void) requestTodayMovingRecord
+{
+    YYGPSInfoRequest *request = [[YYGPSInfoRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGPSInfoAPI];
+    request.begin = @"2017-07-20 17:48:30";
+    request.end = @"2017-07-21 00:00:00";
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.models = [YYRecordModel modelArrayWithDictArray:response];
+            
+            if (weakSelf.models.count <= 0) {
+                return;
+            }
+            coordinates = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * weakSelf.models.count);
+            
+            int index = 0;
+            for (YYRecordModel *model in weakSelf.models) {
+                coordinates[index].longitude = model.lon;
+                coordinates[index].latitude = model.lat;
+                index++;
+            }
+            MAPolyline *polyline = [MAPolyline polylineWithCoordinates:coordinates count:weakSelf.models.count];
+            weakSelf.currentPolyline = polyline;
+            [weakSelf.mapView addOverlay:polyline];
+            
+            [weakSelf.mapView setCenterCoordinate:coordinates[0]];
+            [weakSelf.mapView setZoomLevel:16.6];
+            
+            
+            MAAnimatedAnnotation *anno = [[MAAnimatedAnnotation alloc] init];
+            anno.coordinate = coordinates[0];
+            weakSelf.annotation = anno;
+            
+            [weakSelf.mapView addAnnotation:weakSelf.annotation];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+
 
 /*!
  @brief  生成多角星坐标
@@ -126,46 +196,64 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)initButton
-{
-    UIButton *button1=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button1.frame = CGRectMake(10, 80, 70,25);
-    button1.backgroundColor = [UIColor redColor];
-    [button1 setTitle:@"Go" forState:UIControlStateNormal];
-    [button1 addTarget:self action:@selector(button1) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button1];
-    
-    UIButton *button2=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button2.frame = CGRectMake(10, 130,70,25);
-    button2.backgroundColor = [UIColor redColor];
-    [button2 setTitle:@"Stop" forState:UIControlStateNormal];
-    [button2 addTarget:self action:@selector(button2) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button2];
-}
 
 - (void)button1 {
-    self.annotation.coordinate = coords1[0];
-    
+    self.annotation.coordinate = coordinates[0];
+
     MAAnimatedAnnotation *anno = self.annotation;
-    [anno addMoveAnimationWithKeyCoordinates:coords1 count:sizeof(coords1) / sizeof(coords1[0]) withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
+    [anno addMoveAnimationWithKeyCoordinates:coordinates count:self.models.count withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
+    
     }];
     
-    [anno addMoveAnimationWithKeyCoordinates:coords2 count:sizeof(coords2) / sizeof(coords2[0]) withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
-    }];
-    
-    
-    [anno addMoveAnimationWithKeyCoordinates:coords3 count:sizeof(coords3) / sizeof(coords3[0]) withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
-    }];
 }
 
-- (void)button2 {
-    for(MAAnnotationMoveAnimation *animation in [self.annotation allMoveAnimations]) {
-        [animation cancel];
+
+
+
+- (IBAction)startButtonClick:(UIButton *)sender {
+    if (sender.selected) {
+        QMUILog(@"%ld", [self.annotation allMoveAnimations].count);
+        self.lastIndex = self.models.count - self.annotation.allMoveAnimations.count;
+        for(MAAnnotationMoveAnimation *animation in [self.annotation allMoveAnimations]){
+            [animation cancel];
+        }
+    }else{
+        if (self.lastIndex == 0) {
+            self.annotation.coordinate = coordinates[0];
+            MAAnimatedAnnotation *anno = self.annotation;
+            [anno addMoveAnimationWithKeyCoordinates:coordinates count:self.models.count withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
+                sender.selected = NO;
+                self.lastIndex = 0;
+            }];
+        }else{
+            self.annotation.coordinate = coordinates[self.lastIndex];
+            MAAnimatedAnnotation *anno = self.annotation;
+            [anno addMoveAnimationWithKeyCoordinates:coordinates count:self.models.count withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
+                sender.selected = NO;
+                self.lastIndex = 0;
+            }];
+            
+        }
+     
+//        if (self.lastCoordinate.longitude == 0 && self.lastCoordinate.latitude == 0) {
+//            self.annotation.coordinate = coordinates[0];
+//            MAAnimatedAnnotation *anno = self.annotation;
+//            [anno addMoveAnimationWithKeyCoordinates:coordinates count:self.models.count withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
+//                sender.selected = NO;
+//                self.lastCoordinate = CLLocationCoordinate2DMake(0, 0);
+//            }];
+//        }else{
+//            self.annotation.coordinate = self.lastCoordinate;
+//            MAAnimatedAnnotation *anno = self.annotation;
+//            [anno addMoveAnimationWithKeyCoordinates:coordinates count:[self.annotation allMoveAnimations].count withDuration:5 withName:nil completeCallback:^(BOOL isFinished) {
+//                sender.selected = NO;
+//
+//            }];
+//        }
     }
-    
-    self.annotation.movingDirection = 0;
-    self.annotation.coordinate = coords1[0];
+    sender.selected = !sender.selected;
 }
+
 
 #pragma mark - mapview delegate
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
@@ -174,7 +262,7 @@
     {
         MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
         polylineRenderer.lineWidth    = 8.f;
-        [polylineRenderer loadStrokeTextureImage:[UIImage imageNamed:@"arrowTexture"]];
+        [polylineRenderer setStrokeImage:[UIImage imageNamed:@"arrowTexture"]];
         return polylineRenderer;
         
     }

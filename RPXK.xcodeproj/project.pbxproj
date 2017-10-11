@@ -35,6 +35,9 @@
 		0B727DD21F7C826B00D20092 /* YYMessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B727DD01F7C826B00D20092 /* YYMessageViewCell.m */; };
 		0B727DD31F7C826B00D20092 /* YYMessageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B727DD11F7C826B00D20092 /* YYMessageViewCell.xib */; };
 		0B72D8B31F7F287400133F25 /* YYBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B72D8B21F7F287400133F25 /* YYBluetoothManager.m */; };
+		0B7D19721F8B73370020D600 /* YYDeleteBikeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7D19711F8B73370020D600 /* YYDeleteBikeRequest.m */; };
+		0B9570331F89AF83006CADF2 /* YYGPSInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9570321F89AF83006CADF2 /* YYGPSInfoRequest.m */; };
+		0B9570361F89B01D006CADF2 /* YYRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9570351F89B01D006CADF2 /* YYRecordModel.m */; };
 		0BA52D571F7DDB2300546532 /* YYBatteryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA52D561F7DDB2300546532 /* YYBatteryView.m */; };
 		0BA52D5C1F7E1EBA00546532 /* YYSendCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA52D5B1F7E1EBA00546532 /* YYSendCodeRequest.m */; };
 		0BA52D5F1F7E230500546532 /* YYLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA52D5E1F7E230500546532 /* YYLoginRequest.m */; };
@@ -236,6 +239,12 @@
 		0B727DD11F7C826B00D20092 /* YYMessageViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YYMessageViewCell.xib; sourceTree = "<group>"; };
 		0B72D8B11F7F287400133F25 /* YYBluetoothManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYBluetoothManager.h; sourceTree = "<group>"; };
 		0B72D8B21F7F287400133F25 /* YYBluetoothManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYBluetoothManager.m; sourceTree = "<group>"; };
+		0B7D19701F8B73370020D600 /* YYDeleteBikeRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYDeleteBikeRequest.h; sourceTree = "<group>"; };
+		0B7D19711F8B73370020D600 /* YYDeleteBikeRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYDeleteBikeRequest.m; sourceTree = "<group>"; };
+		0B9570311F89AF83006CADF2 /* YYGPSInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYGPSInfoRequest.h; sourceTree = "<group>"; };
+		0B9570321F89AF83006CADF2 /* YYGPSInfoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYGPSInfoRequest.m; sourceTree = "<group>"; };
+		0B9570341F89B01D006CADF2 /* YYRecordModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYRecordModel.h; sourceTree = "<group>"; };
+		0B9570351F89B01D006CADF2 /* YYRecordModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYRecordModel.m; sourceTree = "<group>"; };
 		0BA52D551F7DDB2300546532 /* YYBatteryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYBatteryView.h; sourceTree = "<group>"; };
 		0BA52D561F7DDB2300546532 /* YYBatteryView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYBatteryView.m; sourceTree = "<group>"; };
 		0BA52D5A1F7E1EBA00546532 /* YYSendCodeRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSendCodeRequest.h; sourceTree = "<group>"; };
@@ -446,6 +455,8 @@
 				0B3AEF2A1F8872D2002934F2 /* YYAddBikeRequest.m */,
 				0B3AEF331F88CC49002934F2 /* YYSetMainDeviceRequest.h */,
 				0B3AEF341F88CC49002934F2 /* YYSetMainDeviceRequest.m */,
+				0B7D19701F8B73370020D600 /* YYDeleteBikeRequest.h */,
+				0B7D19711F8B73370020D600 /* YYDeleteBikeRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -453,6 +464,7 @@
 		0B3F5DD21F7CC69900AB2E80 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				0B9570301F89AF6B006CADF2 /* Request */,
 				0B3F5DD31F7CC69900AB2E80 /* Controllers */,
 				0B3F5DD41F7CC69900AB2E80 /* Models */,
 				0B3F5DD51F7CC69900AB2E80 /* Views */,
@@ -474,6 +486,8 @@
 		0B3F5DD41F7CC69900AB2E80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0B9570341F89B01D006CADF2 /* YYRecordModel.h */,
+				0B9570351F89B01D006CADF2 /* YYRecordModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -484,6 +498,16 @@
 			);
 			path = Views;
 			sourceTree = "<group>";
+		};
+		0B9570301F89AF6B006CADF2 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				0B9570311F89AF83006CADF2 /* YYGPSInfoRequest.h */,
+				0B9570321F89AF83006CADF2 /* YYGPSInfoRequest.m */,
+			);
+			name = Request;
+			path = RPXK/Classes/Request;
+			sourceTree = SOURCE_ROOT;
 		};
 		0BBB49F01F7894BE00ACBC8F = {
 			isa = PBXGroup;
@@ -1350,6 +1374,7 @@
 				0BBB4AD01F789AA700ACBC8F /* NSData+Base64.m in Sources */,
 				0BBB4AD11F789AA700ACBC8F /* NSData+Encrypt.h in Sources */,
 				0BBB4AD21F789AA700ACBC8F /* NSData+Encrypt.m in Sources */,
+				0B9570361F89B01D006CADF2 /* YYRecordModel.m in Sources */,
 				0BBB4AD31F789AA700ACBC8F /* NSDate+Compare.h in Sources */,
 				0B3F5DE11F7CE20700AB2E80 /* YYAboutViewController.m in Sources */,
 				0BBB4B421F789C9500ACBC8F /* YYConstant.m in Sources */,
@@ -1384,6 +1409,8 @@
 				0BBB4AEC1F789AA700ACBC8F /* NSString+Pinyin.m in Sources */,
 				0BBB4AED1F789AA700ACBC8F /* NSString+Size.h in Sources */,
 				0BBB4AEE1F789AA700ACBC8F /* NSString+Size.m in Sources */,
+				0B7D19721F8B73370020D600 /* YYDeleteBikeRequest.m in Sources */,
+				0B9570331F89AF83006CADF2 /* YYGPSInfoRequest.m in Sources */,
 				0BBB4AEF1F789AA700ACBC8F /* NSString+YYExtension.h in Sources */,
 				0BBB4AC91F789A8300ACBC8F /* AppDelegate.h in Sources */,
 				0B3AEF281F8871CC002934F2 /* YYCheckBLERequest.m in Sources */,

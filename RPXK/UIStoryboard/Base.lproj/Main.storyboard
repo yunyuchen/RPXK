@@ -154,12 +154,18 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <state key="normal" title="检测" image="check-off"/>
                                                 <state key="highlighted" image="check-on"/>
+                                                <connections>
+                                                    <action selector="checkButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oEe-F0-g1x"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8dM-BD-e6q" customClass="QMUIButton">
                                                 <rect key="frame" x="271.5" y="140.5" width="83.5" height="100"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <state key="normal" title="寻车" image="find-off"/>
                                                 <state key="highlighted" image="find-on"/>
+                                                <connections>
+                                                    <action selector="searchButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rry-Rc-e0n"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3BP-Sv-kD4" customClass="QMUIButton">
                                                 <rect key="frame" x="20" y="40.5" width="84" height="100"/>
@@ -191,12 +197,29 @@
                                                 <rect key="frame" x="208" y="49" width="141" height="61"/>
                                                 <inset key="imageEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" image="lock"/>
+                                                <connections>
+                                                    <action selector="lockButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wIR-aN-etp"/>
+                                                </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="锁住" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPM-bf-Zry">
+                                                <rect key="frame" x="228" y="120" width="25" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="锁住" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hr1-dW-olX">
+                                                <rect key="frame" x="304" y="120" width="25" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.062745098039215685" green="0.2627450980392157" blue="0.58823529411764708" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstItem="Hr1-dW-olX" firstAttribute="trailing" secondItem="DR8-HI-0CS" secondAttribute="trailing" constant="-20" id="12s-TW-O5M"/>
                                             <constraint firstItem="5k9-xx-T2m" firstAttribute="bottom" secondItem="3wt-3a-nOS" secondAttribute="bottom" id="5k2-pz-Zp2"/>
                                             <constraint firstItem="lq0-dn-ZWC" firstAttribute="leading" secondItem="5k9-xx-T2m" secondAttribute="trailing" id="5ou-S9-WkF"/>
+                                            <constraint firstItem="PPM-bf-Zry" firstAttribute="leading" secondItem="DR8-HI-0CS" secondAttribute="leading" constant="20" id="7V6-gH-4gL"/>
                                             <constraint firstItem="3BP-Sv-kD4" firstAttribute="leading" secondItem="3wt-3a-nOS" secondAttribute="leading" id="C6S-KG-uK5"/>
                                             <constraint firstItem="tfu-EF-DzD" firstAttribute="height" secondItem="DR8-HI-0CS" secondAttribute="height" id="CWA-2n-sle"/>
                                             <constraint firstItem="5k9-xx-T2m" firstAttribute="leading" secondItem="3wt-3a-nOS" secondAttribute="trailing" id="DG1-lK-d2k"/>
@@ -219,10 +242,12 @@
                                             <constraint firstItem="DR8-HI-0CS" firstAttribute="top" secondItem="yxq-GM-yGE" secondAttribute="top" constant="8" id="dXc-TS-rqL"/>
                                             <constraint firstItem="tfu-EF-DzD" firstAttribute="width" secondItem="DR8-HI-0CS" secondAttribute="width" id="gfc-dZ-fki"/>
                                             <constraint firstItem="lq0-dn-ZWC" firstAttribute="width" secondItem="3wt-3a-nOS" secondAttribute="width" id="kj8-3k-Q5O"/>
+                                            <constraint firstItem="Hr1-dW-olX" firstAttribute="centerY" secondItem="PPM-bf-Zry" secondAttribute="centerY" id="nhT-dh-lDW"/>
                                             <constraint firstItem="8dM-BD-e6q" firstAttribute="width" secondItem="3wt-3a-nOS" secondAttribute="width" id="pPI-dt-R0i"/>
                                             <constraint firstItem="8dM-BD-e6q" firstAttribute="bottom" secondItem="lq0-dn-ZWC" secondAttribute="bottom" id="sGj-XP-ktP"/>
                                             <constraint firstItem="yxq-GM-yGE" firstAttribute="width" secondItem="3BP-Sv-kD4" secondAttribute="width" id="t5m-Am-dRb"/>
                                             <constraint firstItem="3BP-Sv-kD4" firstAttribute="width" secondItem="3wt-3a-nOS" secondAttribute="width" id="tYz-gd-TO1"/>
+                                            <constraint firstItem="PPM-bf-Zry" firstAttribute="top" secondItem="DR8-HI-0CS" secondAttribute="bottom" constant="10" id="vNf-aI-BeG"/>
                                             <constraint firstItem="lq0-dn-ZWC" firstAttribute="bottom" secondItem="5k9-xx-T2m" secondAttribute="bottom" id="wd3-ub-1uT"/>
                                             <constraint firstAttribute="trailing" secondItem="8dM-BD-e6q" secondAttribute="trailing" constant="20" id="xGe-nl-l8c"/>
                                             <constraint firstItem="8dM-BD-e6q" firstAttribute="leading" secondItem="lq0-dn-ZWC" secondAttribute="trailing" id="zOq-nT-Hyc"/>
@@ -231,13 +256,16 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="控制bg1" translatesAutoresizingMaskIntoConstraints="NO" id="frz-tI-A7J">
                                         <rect key="frame" x="0.0" y="200.5" width="375" height="80"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Mx-hk-WSY">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Mx-hk-WSY">
                                         <rect key="frame" x="71.5" y="94.5" width="232" height="232"/>
                                         <state key="normal" image="switch-off"/>
                                         <state key="selected" image="switch-on"/>
+                                        <connections>
+                                            <action selector="switchButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BGm-in-skG"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JbV-me-oUu">
-                                        <rect key="frame" x="269" y="59" width="40.5" height="84"/>
+                                        <rect key="frame" x="271.5" y="59" width="35" height="84"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" name="DINMittelschrift-Alternate" family="DINSchrift" pointSize="72"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -253,7 +281,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0iE-a3-f2m">
-                                        <rect key="frame" x="70" y="59.5" width="40.5" height="84"/>
+                                        <rect key="frame" x="72.5" y="59.5" width="35" height="84"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" name="DINMittelschrift-Alternate" family="DINSchrift" pointSize="72"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -305,6 +333,9 @@
                                         <state key="normal" title="未设置">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="lightDelayButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LSa-fT-JBt"/>
+                                        </connections>
                                     </button>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Q5f-Pe-aTg" customClass="QMUISlider">
                                         <rect key="frame" x="30" y="416" width="312" height="31"/>
@@ -324,6 +355,9 @@
                                                 <color key="value" red="0.0078431372549019607" green="0.20784313725490194" blue="0.51764705882352935" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="delayChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="Jsi-1z-Bzs"/>
+                                        </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjS-Fd-d4u">
                                         <rect key="frame" x="178.5" y="460.5" width="15" height="14.5"/>
@@ -452,6 +486,7 @@
                         <outlet property="controlViewLeadingCons" destination="JEV-lQ-Yuj" id="9rg-Tp-tOC"/>
                         <outlet property="findButton" destination="8dM-BD-e6q" id="0Lc-10-pwN"/>
                         <outlet property="lightButton" destination="JWO-if-ZTH" id="RJe-wC-qW6"/>
+                        <outlet property="lightDelayButton" destination="2Jh-VP-7lU" id="tjt-2j-aRg"/>
                         <outlet property="lightView" destination="gdM-GY-GHR" id="kvo-b0-ksw"/>
                         <outlet property="locationButton" destination="3BP-Sv-kD4" id="FI3-Qb-i2c"/>
                         <outlet property="networkButton" destination="5k9-xx-T2m" id="5Lb-EY-cuc"/>
@@ -620,6 +655,17 @@
                                                                 <action selector="setMainButtonClick:" destination="yt0-wb-0Ar" eventType="touchUpInside" id="tR5-aT-Bm9"/>
                                                             </connections>
                                                         </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHi-vJ-miO">
+                                                            <rect key="frame" x="282" y="68" width="50" height="27"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <state key="normal" title="删除车辆">
+                                                                <color key="titleColor" red="0.92941176469999998" green="0.094117647060000004" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="deleteButtonClick:" destination="yt0-wb-0Ar" eventType="touchUpInside" id="l9w-Vo-8MB"/>
+                                                                <action selector="setMainButtonClick:" destination="yt0-wb-0Ar" eventType="touchUpInside" id="r0N-dn-peg"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -627,9 +673,11 @@
                                                         <constraint firstItem="UA3-qq-LeS" firstAttribute="centerY" secondItem="szx-nx-5x9" secondAttribute="centerY" id="8xU-MR-bvE"/>
                                                         <constraint firstItem="aOt-9a-T7g" firstAttribute="centerY" secondItem="xyb-9j-r5w" secondAttribute="centerY" id="Ps8-Vb-3f9"/>
                                                         <constraint firstItem="xyb-9j-r5w" firstAttribute="top" secondItem="szx-nx-5x9" secondAttribute="bottom" constant="1.5" id="Y8y-kl-o39"/>
+                                                        <constraint firstItem="eHi-vJ-miO" firstAttribute="trailing" secondItem="aOt-9a-T7g" secondAttribute="trailing" id="ZEX-Ag-W41"/>
                                                         <constraint firstItem="xyb-9j-r5w" firstAttribute="leading" secondItem="szx-nx-5x9" secondAttribute="leading" id="aIR-Vf-FhQ"/>
                                                         <constraint firstItem="szx-nx-5x9" firstAttribute="leading" secondItem="pF3-HI-6Qv" secondAttribute="leading" constant="15" id="aWH-Or-lHC"/>
                                                         <constraint firstItem="szx-nx-5x9" firstAttribute="top" secondItem="pF3-HI-6Qv" secondAttribute="top" constant="11.5" id="iB8-EL-ef4"/>
+                                                        <constraint firstItem="eHi-vJ-miO" firstAttribute="centerY" secondItem="3A1-8E-3YC" secondAttribute="centerY" id="oQE-me-96h"/>
                                                         <constraint firstAttribute="trailing" secondItem="aOt-9a-T7g" secondAttribute="trailing" constant="27" id="sdV-s6-h6F"/>
                                                         <constraint firstAttribute="bottom" secondItem="3A1-8E-3YC" secondAttribute="bottom" constant="11" id="toi-cq-mTh"/>
                                                         <constraint firstItem="3A1-8E-3YC" firstAttribute="leading" secondItem="xyb-9j-r5w" secondAttribute="leading" id="uuw-C6-BAb"/>
@@ -793,7 +841,7 @@ Copyright 2000-2017 Huarui Electronic CO.,LTD.</string>
                                 <rect key="frame" x="168" y="180" width="38" height="355"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2N-JS-zhT">
-                                <rect key="frame" x="167.5" y="455" width="40.5" height="42"/>
+                                <rect key="frame" x="170" y="455" width="35" height="42"/>
                                 <fontDescription key="fontDescription" name="DINMittelschrift-Alternate" family="DINSchrift" pointSize="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -827,19 +875,19 @@ Copyright 2000-2017 Huarui Electronic CO.,LTD.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ZR-Ds-vmG">
-                                <rect key="frame" x="167.5" y="592" width="40.5" height="42"/>
+                                <rect key="frame" x="170" y="592" width="35" height="42"/>
                                 <fontDescription key="fontDescription" name="DINMittelschrift-Alternate" family="DINSchrift" pointSize="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="剩余电池量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpQ-TV-Mwm">
-                                <rect key="frame" x="108" y="607.5" width="51.5" height="12"/>
+                                <rect key="frame" x="110.5" y="607.5" width="51.5" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05a-GA-H5z">
-                                <rect key="frame" x="216" y="612.5" width="8" height="12"/>
+                                <rect key="frame" x="213" y="612.5" width="8" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1152,32 +1200,50 @@ Copyright 2000-2017 Huarui Electronic CO.,LTD.</string>
                                         <rect key="frame" x="0.0" y="0.0" width="178.5" height="76"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAO-xq-iSA">
-                                                <rect key="frame" x="52.5" y="25" width="73" height="27"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="178.5" height="76"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="  开始" image="轨迹开始"/>
+                                                <state key="selected" image="轨迹暂停"/>
+                                                <connections>
+                                                    <action selector="startButtonClick:" destination="Zxw-qd-fmt" eventType="touchUpInside" id="t94-bU-8Vw"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="dAO-xq-iSA" secondAttribute="trailing" id="735-sj-bQt"/>
                                             <constraint firstItem="dAO-xq-iSA" firstAttribute="centerX" secondItem="iWp-vh-NLP" secondAttribute="centerX" id="TO9-Zr-Cx5"/>
+                                            <constraint firstItem="dAO-xq-iSA" firstAttribute="top" secondItem="iWp-vh-NLP" secondAttribute="top" id="XJE-Yg-2BI"/>
+                                            <constraint firstItem="dAO-xq-iSA" firstAttribute="leading" secondItem="iWp-vh-NLP" secondAttribute="leading" id="cQi-bB-pIc"/>
                                             <constraint firstItem="dAO-xq-iSA" firstAttribute="centerY" secondItem="iWp-vh-NLP" secondAttribute="centerY" id="mRq-7M-OJj"/>
+                                            <constraint firstAttribute="bottom" secondItem="dAO-xq-iSA" secondAttribute="bottom" id="oJL-qB-aHr"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-Xc-5Uc">
                                         <rect key="frame" x="179.5" y="0.0" width="179.5" height="75.5"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTy-Vv-u3y">
-                                                <rect key="frame" x="61" y="23.5" width="58" height="29"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTy-Vv-u3y">
+                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="75.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="昨日轨迹">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" title="今日轨迹">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="recordButtonClick:" destination="Zxw-qd-fmt" eventType="touchUpInside" id="fz4-ol-6x7"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="fTy-Vv-u3y" firstAttribute="centerX" secondItem="2jM-Xc-5Uc" secondAttribute="centerX" id="VEA-v5-XdV"/>
+                                            <constraint firstItem="fTy-Vv-u3y" firstAttribute="top" secondItem="2jM-Xc-5Uc" secondAttribute="top" id="YdK-wQ-ADP"/>
+                                            <constraint firstItem="fTy-Vv-u3y" firstAttribute="leading" secondItem="2jM-Xc-5Uc" secondAttribute="leading" id="fcY-OI-3pa"/>
+                                            <constraint firstAttribute="bottom" secondItem="fTy-Vv-u3y" secondAttribute="bottom" id="gEV-ZX-lky"/>
                                             <constraint firstItem="fTy-Vv-u3y" firstAttribute="centerY" secondItem="2jM-Xc-5Uc" secondAttribute="centerY" id="nUZ-XD-8us"/>
+                                            <constraint firstAttribute="trailing" secondItem="fTy-Vv-u3y" secondAttribute="trailing" id="wvF-oC-A4g"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1206,6 +1272,7 @@ Copyright 2000-2017 Huarui Electronic CO.,LTD.</string>
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="QxV-jg-y3W" id="4GN-yp-N7b"/>
+                        <outlet property="startButton" destination="dAO-xq-iSA" id="mtv-C9-qHp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nZo-Mq-o8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1330,6 +1397,7 @@ Copyright 2000-2017 Huarui Electronic CO.,LTD.</string>
         <image name="车况bg1" width="375" height="330"/>
         <image name="车况bg2" width="375" height="315"/>
         <image name="轨迹开始" width="36" height="27"/>
+        <image name="轨迹暂停" width="36" height="27"/>
         <image name="返回白" width="8" height="13"/>
         <image name="退出账号" width="24" height="24"/>
         <image name="速度底盘" width="355" height="355"/>

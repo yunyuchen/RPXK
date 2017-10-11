@@ -7,6 +7,8 @@
 //
 
 #import "WSColorImageView.h"
+#import "YYBluetoothManager.h"
+
 
 @interface WSColorImageView()
 
@@ -41,11 +43,11 @@
     
     if (pow(pointL.x - self.bounds.size.width/2, 2)+pow(pointL.y-self.bounds.size.width/2, 2) <= pow(self.bounds.size.width/2, 2)) {
         
-        UIColor *color = [self colorAtPixel:pointL];
-        if (self.currentColorBlock) {
-            
-            self.currentColorBlock(color);
-        }
+//        UIColor *color = [self colorAtPixel:pointL];
+//        if (self.currentColorBlock) {
+//
+//            self.currentColorBlock(color);
+//        }
     }
 }
 
@@ -60,7 +62,7 @@
         UIColor *color = [self colorAtPixel:pointL];
         
         if (self.currentColorBlock) {
-            
+
             self.currentColorBlock(color);
         }
     }
@@ -116,12 +118,13 @@
     CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, (CGFloat)width, (CGFloat)height), cgImage);
     CGContextRelease(context);
     
-    CGFloat red   = (CGFloat)pixelData[0] / 255.0f;
-    CGFloat green = (CGFloat)pixelData[1] / 255.0f;
-    CGFloat blue  = (CGFloat)pixelData[2] / 255.0f;
-    CGFloat alpha = (CGFloat)pixelData[3] / 255.0f;
+    CGFloat red   = (CGFloat)pixelData[0];
+    CGFloat green = (CGFloat)pixelData[1];
+    CGFloat blue  = (CGFloat)pixelData[2];
+    CGFloat alpha = (CGFloat)pixelData[3];
+    [[YYBluetoothManager sharedManager] changeColorWithRed:red Green:green Blue:blue];
     
-    NSLog(@"%f***%f***%f***%f",red,green,blue,alpha);
+    //NSLog(@"%f***%f***%f***%f",red,green,blue,alpha);
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 
