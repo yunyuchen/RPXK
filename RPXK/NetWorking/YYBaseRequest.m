@@ -171,17 +171,6 @@
     }
     // 数据请求成功回调
     BOOL success = [responseObject[@"state"] isEqualToString:@"000"];
-    
-//    NSLog(@"%@",kFetchUserId);
-//    
-//    if ([responseObject[@"state"] isEqualToString:@"503"] && kFetchUserInfo != nil) {
-//        success = false;
-//        
-//        [SVProgressHUD showErrorWithStatus:@"您的账号在别处登录，请重新登录"];
-//        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kLogoutSuccessNotification object:nil];
-//    }
-    
    
     if (completion) {
         
